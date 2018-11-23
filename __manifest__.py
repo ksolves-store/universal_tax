@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v11.0
+        Universal Tax v12.0
         """,
 
     'description': """
@@ -13,7 +13,7 @@
             Settings -> General Settings -> invoice
         
         - Maintains the global tax entries in accounts specified by you (**Note** : To see journal entries in Invoicing:
-        (in debug mode))
+         (in debug mode))
             
             Settings -> users -> select user -> Check "Show Full Accounting Features")
         
@@ -27,7 +27,7 @@
 
     'category': 'Sales Management',
     'version': '1.0.0',
-
+    'license': 'OPL-1',
     'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
 
     'data': [
@@ -38,7 +38,9 @@
         'views/ks_account_invoice_supplier_form.xml',
         'views/ks_report.xml',
         'views/assets.xml',
+
     ],
 
     'images': ['static/description/main.png'],
+
 }

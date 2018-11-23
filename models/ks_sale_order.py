@@ -7,8 +7,8 @@ from odoo.exceptions import UserError, ValidationError
 class KsGlobalTaxSales(models.Model):
     _inherit = "sale.order"
 
-    ks_global_tax_rate = fields.Float(string="Universal Tax (%):", readonly=True, states={'draft': [('readonly', False)],
-                                                                               'sent': [('readonly', False)]})
+    ks_global_tax_rate = fields.Float(string="Universal Tax (%):", readonly=True,
+                                      states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
     ks_amount_global_tax = fields.Monetary(string='Universal Tax', readonly=True, compute='_amount_all',
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')

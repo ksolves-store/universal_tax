@@ -6,8 +6,8 @@ class KsResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     ks_enable_tax = fields.Boolean(string="Activate Universal Tax")
-    ks_sales_tax_account = fields.Many2one('account.account')
-    ks_purchase_tax_account = fields.Many2one('account.account')
+    ks_sales_tax_account = fields.Many2one('account.account', string="Sales Tax Account")
+    ks_purchase_tax_account = fields.Many2one('account.account', string="Purchase Tax Account")
 
     def get_values(self):
         ks_res = super(KsResConfigSettings, self).get_values()

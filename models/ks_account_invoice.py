@@ -5,7 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 class KsGlobalTaxInvoice(models.Model):
     _inherit = "account.invoice"
 
-    ks_global_tax_rate = fields.Float(string='Universal Tax (%):', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+    ks_global_tax_rate = fields.Float(string='Universal Tax (%):', readonly=True,
+                                      states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
     ks_amount_global_tax = fields.Monetary(string="Universal Tax", readonly=True, compute='_compute_amount',
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')
@@ -41,11 +42,12 @@ class KsGlobalTaxInvoice(models.Model):
                 rec.ks_amount_global_tax = (rec.amount_total * rec.ks_global_tax_rate) / 100
             else:
                 rec.ks_amount_global_tax = 0.0
+
             rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
 
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
-        if (self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0):
+        if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
             raise ValidationError('You cannot enter percentage value greater than 100.')
 
     @api.onchange('purchase_id')
@@ -85,7 +87,6 @@ class KsGlobalTaxInvoice(models.Model):
                     'invoice_id': self.id,
                 }
                 ks_res.append(dict)
-
         return ks_res
 
     @api.model
