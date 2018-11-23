@@ -27,7 +27,7 @@
 
     'category': 'Sales Management',
     'version': '1.0.0',
-    'license': 'OPL-1',
+    'license': 'LGPL-3',
     'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
 
     'data': [
