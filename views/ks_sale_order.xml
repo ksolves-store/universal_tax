@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+
+        <record id="ks_tax_sale_order_form_inherited" model="ir.ui.view">
+            <field name="name">ks.tax.sale_order.form.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='note']" position="before">
+                    <div class="ks_container">
+                        <field name="ks_enable_tax" invisible="1"/>
+                        <label for="ks_global_tax_rate" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+                        <field name="ks_global_tax_rate" class="oe_inline" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)],
+                                                                                         'readonly':[('ks_enable_tax','!=',True),('ks_amount_global_tax','!=',0)]}"/>
+                    </div>
+                    <br></br>
+
+                </xpath>
+                <xpath expr="//group[@name='sale_total']/div" position="before">
+                    <field name="ks_amount_global_tax" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>

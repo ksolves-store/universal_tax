@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+
+        <record id="ks_global_tax_purchase_view_form" model="ir.ui.view">
+            <field name="name">ks.global.tax.purchase.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='notes']" position="before">
+                    <div class="ks_container">
+                        <field name="ks_enable_tax" invisible="1"/>
+                        <label for="ks_global_tax_rate" string="Universal Tax (%):"
+                               attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+                        <field name="ks_global_tax_rate" class="oe_inline" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)],
+                                                                                         'readonly':[('ks_enable_tax','!=',True),('ks_amount_global_tax','!=',0)]}"/>
+
+                    </div>
+                    <br></br>
+
+                </xpath>
+                <xpath expr="//group[@class='oe_subtotal_footer oe_right']/div" position="before">
+                    <field name="ks_amount_global_tax"
+                           attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
