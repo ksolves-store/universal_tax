@@ -12,9 +12,9 @@ class KsResConfigSettings(models.TransientModel):
     def get_values(self):
         ks_res = super(KsResConfigSettings, self).get_values()
         ks_res.update(
-            ks_enable_tax=self.env['ir.config_parameter'].get_param('ks_enable_tax'),
-            ks_sales_tax_account=int(self.env['ir.config_parameter'].get_param('ks_sales_tax_account')),
-            ks_purchase_tax_account=int(self.env['ir.config_parameter'].get_param('ks_purchase_tax_account')),
+            ks_enable_tax=self.env['ir.config_parameter'].sudo().get_param('ks_enable_tax'),
+            ks_sales_tax_account=int(self.env['ir.config_parameter'].sudo().get_param('ks_sales_tax_account')),
+            ks_purchase_tax_account=int(self.env['ir.config_parameter'].sudo().get_param('ks_purchase_tax_account')),
         )
         return ks_res
 

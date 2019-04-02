@@ -17,9 +17,9 @@ class KsGlobalTaxInvoice(models.Model):
     @api.depends('name')
     def ks_verify_tax(self):
         for rec in self:
-            rec.ks_enable_tax = rec.env['ir.config_parameter'].get_param('ks_enable_tax')
-            rec.ks_sales_tax_account = rec.env['ir.config_parameter'].get_param('ks_sales_tax_account')
-            rec.ks_purchase_tax_account = rec.env['ir.config_parameter'].get_param('ks_purchase_tax_account')
+            rec.ks_enable_tax = rec.env['ir.config_parameter'].sudo().get_param('ks_enable_tax')
+            rec.ks_sales_tax_account = rec.env['ir.config_parameter'].sudo().get_param('ks_sales_tax_account')
+            rec.ks_purchase_tax_account = rec.env['ir.config_parameter'].sudo().get_param('ks_purchase_tax_account')
 
     @api.multi
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'tax_line_ids.amount_rounding',
