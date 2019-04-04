@@ -15,7 +15,7 @@ class KsGlobalTaxSales(models.Model):
 
     @api.depends('name')
     def ks_verify_tax(self):
-        self.ks_enable_tax = self.env['ir.config_parameter'].get_param('ks_enable_tax')
+        self.ks_enable_tax = self.env['ir.config_parameter'].sudo().get_param('ks_enable_tax')
 
     @api.depends('order_line.price_total', 'ks_global_tax_rate')
     def _amount_all(self):
