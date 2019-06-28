@@ -21,7 +21,7 @@
         - Also update the report PDF printout with global tax value.
     """,
 
-    'author': "Ksolves",
+    'author': "Ksolves India Pvt. Ltd.",
     'website': "https://www.ksolves.com/",
 
 
