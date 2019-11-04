@@ -27,7 +27,7 @@ class KsGlobalTaxSales(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
-    @api.multi
+    # @api.multi
     def _prepare_invoice(self):
         for rec in self:
             ks_res = super(KsGlobalTaxSales, rec)._prepare_invoice()
@@ -35,7 +35,7 @@ class KsGlobalTaxSales(models.Model):
             ks_res['ks_amount_global_tax'] = rec.ks_amount_global_tax
         return ks_res
 
-    @api.multi
+    # @api.multi
     def ks_calculate_tax(self):
         for rec in self:
             if rec.ks_global_tax_rate != 0.0:
