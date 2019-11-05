@@ -168,11 +168,11 @@ class KsGlobalTaxInvoice(models.Model):
                     in_draft_mode = self != self._origin
                     ks_name = "Universal Tax"
                     ks_name = ks_name + \
-                              " (" + str(self.ks_global_tax_rate) + "%)"
-                    ks_name = ks_name + " for " + \
-                              ("Invoice No: " + str(self.ids)
-                               if self._origin.id
-                               else (self.display_name))
+                              " @" + str(self.ks_global_tax_rate) + "%"
+                    # ks_name = ks_name + " for " + \
+                    #           ("Invoice No: " + str(self.ids)
+                    #            if self._origin.id
+                    #            else (self.display_name))
                     terms_lines = self.line_ids.filtered(
                         lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
                     already_exists = self.line_ids.filtered(
