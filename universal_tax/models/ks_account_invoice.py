@@ -70,7 +70,8 @@ class KsGlobalTaxInvoice(models.Model):
                 amount = rec.ks_amount_global_tax
                 if rec.ks_sales_tax_account \
                         and (rec.type == "out_invoice"
-                             or rec.type == "out_refund"):
+                             or rec.type == "out_refund")\
+                        and rec.ks_global_tax_rate > 0:
                     if rec.type == "out_invoice":
                         already_exists.update({
                             'debit': amount < 0.0 and -amount or 0.0,
@@ -83,7 +84,8 @@ class KsGlobalTaxInvoice(models.Model):
                         })
                 if rec.ks_purchase_tax_account \
                         and (rec.type == "in_invoice"
-                             or rec.type == "in_refund"):
+                             or rec.type == "in_refund")\
+                        and rec.ks_global_tax_rate > 0:
                     if rec.type == "in_invoice":
                         already_exists.update({
                             'debit': amount > 0.0 and amount or 0.0,
