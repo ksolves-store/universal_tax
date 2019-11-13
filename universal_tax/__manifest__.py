@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v12.0
+        Universal Tax v13.0
         """,
 
     'description': """
