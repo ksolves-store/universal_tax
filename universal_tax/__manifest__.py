@@ -41,6 +41,6 @@
 
     ],
 
-    'images': ['static/description/main.png'],
+    'images': ['static/description/Universal-Tax-V13.jpg'],
 
 }
