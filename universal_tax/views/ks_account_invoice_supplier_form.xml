@@ -1,24 +1,25 @@
 <odoo>
     <data>
         <record id="ks_global_tax_invoice_supplier_purchase_form" model="ir.ui.view">
-            <field name="name">ks.global_tax.invoice.supplier.purchase</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="name">ks.global_tax.invoice.account.move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='tax_line_ids']" position="before">
+                <xpath expr="////form/sheet/notebook/page[1]/group" position="after">
                     <div class="ks_container">
                        <field name="ks_enable_tax" invisible="1"/>
+                       <field name="ks_amount_global_tax" invisible="1"/>
                         <label for="ks_global_tax_rate" string="Universal Tax (%):"
                                attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
                         <field name="ks_global_tax_rate" class="oe_inline" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)],
-                                                                                         'readonly':[('ks_enable_tax','!=',True),('ks_amount_global_tax','!=',0)]}"/>
+                                                                                         'readonly':['|', ('ks_enable_tax','!=',True),('state','in',['posted', 'cancel'])]}"/>
 
                     </div>
                 </xpath>
-                <xpath expr="//field[@name='tax_line_ids']" position="attributes">
-                    <attribute name="class">ks_margin</attribute>
-                </xpath>
-                <xpath expr="//group[@class='oe_subtotal_footer oe_right']/field[@name='amount_total']" position="before">
+<!--                <xpath expr="//field[@name='tax_line_ids']" position="attributes">-->
+<!--                    <attribute name="class">ks_margin</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//group[@class='oe_subtotal_footer']/field[@name='amount_by_group']" position="after">
                     <field name="ks_amount_global_tax" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
                 </xpath>
             </field>

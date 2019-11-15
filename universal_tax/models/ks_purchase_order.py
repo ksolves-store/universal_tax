@@ -15,7 +15,7 @@ class GlobalTaxPurchases(models.Model):
     def ks_verify_tax(self):
         self.ks_enable_tax = self.env['ir.config_parameter'].sudo().get_param('ks_enable_tax')
 
-    @api.multi
+    # @api.multi
     @api.depends('order_line.price_total', 'ks_global_tax_rate')
     def _amount_all(self):
         for rec in self:
@@ -26,7 +26,14 @@ class GlobalTaxPurchases(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
-    @api.multi
+    def action_view_invoice(self):
+        for rec in self:
+            ks_res = super(GlobalTaxPurchases, rec).action_view_invoice()
+            ks_res['context']['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
+            ks_res['context']['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+        return ks_res
+
+    # @api.multi
     def ks_calculate_tax(self):
         for rec in self:
             if rec.ks_global_tax_rate != 0.0:

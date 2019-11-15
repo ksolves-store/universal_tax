@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v12.0
+        Universal Tax v13.0
         """,
 
     'description': """
@@ -41,6 +41,6 @@
 
     ],
 
-    'images': ['static/description/main.png'],
+    'images': ['static/description/Universal-Tax-V13.jpg'],
 
 }
