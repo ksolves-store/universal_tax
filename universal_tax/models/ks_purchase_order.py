@@ -11,11 +11,11 @@ class GlobalTaxPurchases(models.Model):
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')
 
-    @api.depends('name')
+    @api.depends('company_id.ks_enable_tax')
     def ks_verify_tax(self):
-        self.ks_enable_tax = self.env['ir.config_parameter'].sudo().get_param('ks_enable_tax')
+        for rec in self:
+            rec.ks_enable_tax = rec.company_id.ks_enable_tax
 
-    # @api.multi
     @api.depends('order_line.price_total', 'ks_global_tax_rate')
     def _amount_all(self):
         for rec in self:
