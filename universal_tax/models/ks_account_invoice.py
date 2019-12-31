@@ -11,7 +11,7 @@ class KsGlobalTaxInvoice(models.Model):
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')
     ks_sales_tax_account_id = fields.Integer(compute='ks_verify_tax')
-    ks_purchase_tax_account_id = fields.Text(compute='ks_verify_tax')
+    ks_purchase_tax_account_id = fields.Integer(compute='ks_verify_tax')
 
     @api.multi
     @api.depends('company_id.ks_enable_tax')
@@ -91,8 +91,8 @@ class KsGlobalTaxInvoice(models.Model):
 
     @api.model
     def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
-        ks_res = super(KsGlobalTaxInvoice, self)._prepare_refund(invoice, date_invoice=None, date=None,
-                                                                 description=None, journal_id=None)
+        ks_res = super(KsGlobalTaxInvoice, self)._prepare_refund(invoice, date_invoice, date,
+                                                                 description, journal_id)
         ks_res['ks_global_tax_rate'] = self.ks_global_tax_rate
         ks_res['ks_amount_global_tax'] = self.ks_amount_global_tax
         return ks_res
