@@ -20,6 +20,7 @@ class KsGlobalTaxInvoice(models.Model):
             rec.ks_sales_tax_account_id = rec.company_id.ks_sales_tax_account.id
             rec.ks_purchase_tax_account_id = rec.company_id.ks_purchase_tax_account.id
 
+
     @api.depends(
         'line_ids.debit',
         'line_ids.credit',
@@ -40,6 +41,7 @@ class KsGlobalTaxInvoice(models.Model):
             sign = rec.type in ['in_refund', 'out_refund'] and -1 or 1
             rec.amount_total_company_signed = rec.amount_total * sign
             rec.amount_total_signed = rec.amount_total * sign
+
 
     def ks_calculate_tax(self):
         for rec in self:
