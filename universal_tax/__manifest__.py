@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v12.0
+        Universal Tax v13.0
         """,
 
     'description': """
@@ -26,7 +26,7 @@
 
 
     'category': 'Sales Management',
-    'version': '1.1.1',
+    'version': '1.2.0',
     'license': 'LGPL-3',
     'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
 
@@ -41,6 +41,6 @@
 
     ],
 
-    'images': ['static/description/main.png'],
+    'images': ['static/description/Universal-Tax-V13.jpg'],
 
 }

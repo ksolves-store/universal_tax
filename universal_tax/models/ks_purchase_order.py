@@ -1,3 +1,5 @@
+import json
+
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 
@@ -11,11 +13,11 @@ class GlobalTaxPurchases(models.Model):
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')
 
-    @api.depends('name')
+    @api.depends('company_id.ks_enable_tax')
     def ks_verify_tax(self):
-        self.ks_enable_tax = self.env['ir.config_parameter'].sudo().get_param('ks_enable_tax')
+        for rec in self:
+            rec.ks_enable_tax = rec.company_id.ks_enable_tax
 
-    @api.multi
     @api.depends('order_line.price_total', 'ks_global_tax_rate')
     def _amount_all(self):
         for rec in self:
@@ -26,7 +28,21 @@ class GlobalTaxPurchases(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
-    @api.multi
+    def action_view_invoice(self, invoices=False):
+        for rec in self:
+            ks_res = super(GlobalTaxPurchases, rec).action_view_invoice()
+            hh = ks_res['context']
+            jj = str(hh).replace("'", '"')
+            dic = json.loads(jj)
+            dic['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
+            dic['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+            context_str = json.dumps(dic)
+            ks_res['context'] = context_str
+            # ks_res['context']['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
+            # ks_res['context']['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+        return ks_res
+
+    # @api.multi
     def ks_calculate_tax(self):
         for rec in self:
             if rec.ks_global_tax_rate != 0.0:
