@@ -28,6 +28,11 @@ class GlobalTaxPurchases(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
+    def _prepare_invoice(self):
+        ks_res = super(GlobalTaxPurchases, self)._prepare_invoice()
+        ks_res['ks_global_tax_rate'] = self.ks_global_tax_rate
+        return ks_res
+
     def action_view_invoice(self, invoices=False):
         for rec in self:
             ks_res = super(GlobalTaxPurchases, rec).action_view_invoice()
@@ -54,4 +59,4 @@ class GlobalTaxPurchases(models.Model):
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
-            raise ValidationError('You cannot enter percentage value greater than 100.')
+            raise ValidationError('You cannot enter percentage value greater than 100 or less than 0.')

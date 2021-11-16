@@ -47,7 +47,7 @@ class KsGlobalTaxSales(models.Model):
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
-            raise ValidationError('You cannot enter percentage value greater than 100.')
+            raise ValidationError('You cannot enter percentage value greater than 100 or less than 0.')
 
 
 class KsSaleAdvancePaymentInv(models.TransientModel):
