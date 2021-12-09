@@ -268,7 +268,8 @@ class KsGlobalTaxInvoice(models.Model):
                                 'debit': total_balance < 0.0 and -total_balance or 0.0,
                                 'credit': total_balance > 0.0 and total_balance or 0.0,
                                 }
-                        self.line_ids = [(1, already_exists.id, dict1), (1, terms_lines[0].id, dict2)]
+                        if terms_lines:
+                            self.line_ids = [(1, already_exists.id, dict1), (1, terms_lines[0].id, dict2)]
                         print()
 
             elif self.ks_global_tax_rate <= 0:

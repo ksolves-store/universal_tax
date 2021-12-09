@@ -18,7 +18,8 @@
 
 
     <template id="ks_global_tax_invoice_report" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@id='total']/div/table/t" position="after">
+         <xpath expr="//div[@id='total']/div/table/t" position="after">
+<!--        <xpath expr="//div[@id='total']" position="after">-->
             <t t-if="o.ks_amount_global_tax>0">
                 <tr>
                     <td>
@@ -36,7 +37,9 @@
 
 
     <template id="ks_global_tax_purchase_report" inherit_id="purchase.report_purchaseorder_document">
-        <xpath expr="//div[@class='row justify-content-end']/div/table[@class='table table-sm']/tr[2]" position="after">
+<!--        <xpath expr="//div[@class='row justify-content-end']/div/table[@class='table table-sm']/tr[2]" position="after">-->
+        <xpath expr="//div[@class='row justify-content-end']/div/table[@class='table table-sm']/t[1]" position="after">
+<!--        <xpath expr="//div[@class='row justify-content-end']" position="before">-->
             <t t-if="o.ks_amount_global_tax>0">
                 <tr>
                     <td>
