@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v13.0
+        Universal Tax v14.0
         """,
 
     'description': """
@@ -22,7 +22,7 @@
     """,
 
     'author': "Ksolves India Pvt. Ltd.",
-    'website': "https://www.ksolves.com/",
+    'website': "https://store.ksolves.com/",
 
 
     'category': 'Sales Management',
