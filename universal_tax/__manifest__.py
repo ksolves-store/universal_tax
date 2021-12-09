@@ -26,8 +26,10 @@
 
 
     'category': 'Sales Management',
-    'version': '1.2.0',
+    'version': '14.1.0.0',
     'license': 'LGPL-3',
+    'currency': 'EUR',
+    'price': '0.0',
     'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
 
     'data': [
