@@ -43,7 +43,7 @@
 
     ],
 
-    'images': ['static/description/Universal-Tax-V13.jpg'],
+    'images': ['static/description/Universal_Tax_V15.jpg'],
     'assets': {
             'web.assets_backend': [
                 '/universal_tax/static/css/ks_stylesheet.css',
