@@ -43,6 +43,6 @@
 
     ],
 
-    'images': ['static/description/Universal-Tax-V13.jpg'],
+    'images': ['static/description/Universal_Tax_V14.jpg'],
 
 }
