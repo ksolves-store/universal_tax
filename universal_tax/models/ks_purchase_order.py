@@ -28,6 +28,7 @@ class GlobalTaxPurchases(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
+
     def _prepare_invoice(self):
         ks_res = super(GlobalTaxPurchases, self)._prepare_invoice()
         ks_res['ks_global_tax_rate'] = self.ks_global_tax_rate
@@ -45,6 +46,7 @@ class GlobalTaxPurchases(models.Model):
             ks_res['context'] = context_str
             # ks_res['context']['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
             # ks_res['context']['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+
         return ks_res
 
     # @api.multi
