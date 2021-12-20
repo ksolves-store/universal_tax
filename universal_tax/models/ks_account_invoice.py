@@ -38,15 +38,17 @@ class KsGlobalTaxInvoice(models.Model):
 
             rec.ks_calculate_tax()
             rec.ks_update_universal_tax()
-            sign = rec.type in ['in_refund', 'out_refund'] and -1 or 1
-            rec.amount_total_company_signed = rec.amount_total * sign
+e
+            sign = rec.move_type in ['in_refund', 'out_refund'] and -1 or 1
+            # rec.amount_total_company_signed = rec.amount_total * sign
             rec.amount_total_signed = rec.amount_total * sign
 
 
     def ks_calculate_tax(self):
         for rec in self:
             type_list = ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']
-            if rec.ks_global_tax_rate != 0.0 and rec.type in type_list:
+
+            if rec.ks_global_tax_rate != 0.0 and rec.move_type in type_list:
                 rec.ks_amount_global_tax = (rec.amount_total * rec.ks_global_tax_rate) / 100
             else:
                 rec.ks_amount_global_tax = 0.0
@@ -64,10 +66,11 @@ class KsGlobalTaxInvoice(models.Model):
             if already_exists:
                 amount = rec.ks_amount_global_tax
                 if rec.ks_sales_tax_account_id \
-                        and (rec.type == "out_invoice"
-                             or rec.type == "out_refund")\
+
+                        and (rec.move_type == "out_invoice"
+                             or rec.move_type == "out_refund")\
                         and rec.ks_global_tax_rate > 0:
-                    if rec.type == "out_invoice":
+                    if rec.move_type == "out_invoice":
                         already_exists.update({
                             'debit': amount < 0.0 and -amount or 0.0,
                             'credit': amount > 0.0 and amount or 0.0,
@@ -78,10 +81,11 @@ class KsGlobalTaxInvoice(models.Model):
                             'credit': amount < 0.0 and -amount or 0.0,
                         })
                 if rec.ks_purchase_tax_account_id \
-                        and (rec.type == "in_invoice"
-                             or rec.type == "in_refund")\
+
+                        and (rec.move_type == "in_invoice"
+                             or rec.move_type == "in_refund")\
                         and rec.ks_global_tax_rate > 0:
-                    if rec.type == "in_invoice":
+                    if rec.move_type == "in_invoice":
                         already_exists.update({
                             'debit': amount > 0.0 and amount or 0.0,
                             'credit': amount < 0.0 and -amount or 0.0,
@@ -102,12 +106,11 @@ class KsGlobalTaxInvoice(models.Model):
                 in_draft_mode = self != self._origin
                 if not in_draft_mode:
                     rec._recompute_universal_tax_lines()
-                print()
 
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
-            raise ValidationError('You cannot enter percentage value greater than 100.')
+            raise ValidationError('You cannot enter percentage value greater than 100 or less than 0.')
 
 
     @api.model
@@ -122,7 +125,8 @@ class KsGlobalTaxInvoice(models.Model):
     def _recompute_universal_tax_lines(self):
         for rec in self:
             type_list = ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']
-            if rec.ks_global_tax_rate > 0 and rec.type in type_list:
+            if rec.ks_global_tax_rate > 0 and rec.move_type in type_list:
+
                 if rec.is_invoice(include_receipts=True):
                     in_draft_mode = self != self._origin
                     ks_name = "Universal Tax"
@@ -139,16 +143,18 @@ class KsGlobalTaxInvoice(models.Model):
                     if already_exists:
                         amount = self.ks_amount_global_tax
                         if self.ks_sales_tax_account_id \
-                                and (self.type == "out_invoice"
-                                     or self.type == "out_refund"):
+
+                                and (self.move_type == "out_invoice"
+                                     or self.move_type == "out_refund"):
                             already_exists.update({
                                 'name': ks_name,
                                 'debit': amount < 0.0 and -amount or 0.0,
                                 'credit': amount > 0.0 and amount or 0.0,
                             })
                         if self.ks_purchase_tax_account_id\
-                                and (self.type == "in_invoice"
-                                     or self.type == "in_refund"):
+
+                                and (self.move_type == "in_invoice"
+                                     or self.move_type == "in_refund"):
                             already_exists.update({
                                 'name': ks_name,
                                 'debit': amount > 0.0 and amount or 0.0,
@@ -161,8 +167,9 @@ class KsGlobalTaxInvoice(models.Model):
                                         self.env['account.move.line'].create
 
                         if self.ks_sales_tax_account_id \
-                                and (self.type == "out_invoice"
-                                     or self.type == "out_refund"):
+
+                                and (self.move_type == "out_invoice"
+                                     or self.move_type == "out_refund"):
                             amount = self.ks_amount_global_tax
                             dict = {
                                     'move_name': self.name,
@@ -179,7 +186,8 @@ class KsGlobalTaxInvoice(models.Model):
                                     'company_id': terms_lines.company_id.id,
                                     'company_currency_id': terms_lines.company_currency_id.id,
                                     }
-                            if self.type == "out_invoice":
+
+                            if self.move_type == "out_invoice":
                                 dict.update({
                                     'debit': amount < 0.0 and -amount or 0.0,
                                     'credit': amount > 0.0 and amount or 0.0,
@@ -204,8 +212,10 @@ class KsGlobalTaxInvoice(models.Model):
                                 self.line_ids = [(0, 0, dict)]
 
                         if self.ks_purchase_tax_account_id\
-                                and (self.type == "in_invoice"
-                                     or self.type == "in_refund"):
+
+                                and (self.move_type == "in_invoice"
+                                     or self.move_type == "in_refund"):
+
                             amount = self.ks_amount_global_tax
                             dict = {
                                     'move_name': self.name,
@@ -223,7 +233,9 @@ class KsGlobalTaxInvoice(models.Model):
                                     'company_currency_id': terms_lines.company_currency_id.id,
                                     }
 
-                            if self.type == "in_invoice":
+
+                            if self.move_type == "in_invoice":
+
                                 dict.update({
                                     'debit': amount > 0.0 and amount or 0.0,
                                     'credit': amount < 0.0 and -amount or 0.0,
@@ -269,8 +281,10 @@ class KsGlobalTaxInvoice(models.Model):
                                 'debit': total_balance < 0.0 and -total_balance or 0.0,
                                 'credit': total_balance > 0.0 and total_balance or 0.0,
                                 }
-                        self.line_ids = [(1, already_exists.id, dict1), (1, terms_lines.id, dict2)]
-                        print()
+
+                        self.line_ids = [(1, already_exists.id, dict1), (1, terms_lines[0].id, dict2)]
+
+                       
 
             elif self.ks_global_tax_rate <= 0:
                 already_exists = self.line_ids.filtered(

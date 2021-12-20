@@ -1,3 +1,5 @@
+import json
+
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 
@@ -26,11 +28,25 @@ class GlobalTaxPurchases(models.Model):
             rec.ks_calculate_tax()
         return ks_res
 
-    def action_view_invoice(self):
+
+    def _prepare_invoice(self):
+        ks_res = super(GlobalTaxPurchases, self)._prepare_invoice()
+        ks_res['ks_global_tax_rate'] = self.ks_global_tax_rate
+        return ks_res
+
+    def action_view_invoice(self, invoices=False):
         for rec in self:
             ks_res = super(GlobalTaxPurchases, rec).action_view_invoice()
-            ks_res['context']['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
-            ks_res['context']['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+            hh = ks_res['context']
+            jj = str(hh).replace("'", '"')
+            dic = json.loads(jj)
+            dic['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
+            dic['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+            context_str = json.dumps(dic)
+            ks_res['context'] = context_str
+            # ks_res['context']['default_ks_global_tax_rate'] = rec.ks_global_tax_rate
+            # ks_res['context']['default_ks_amount_global_tax'] = rec.ks_amount_global_tax
+
         return ks_res
 
     # @api.multi
@@ -45,4 +61,4 @@ class GlobalTaxPurchases(models.Model):
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
-            raise ValidationError('You cannot enter percentage value greater than 100.')
+            raise ValidationError('You cannot enter percentage value greater than 100 or less than 0.')

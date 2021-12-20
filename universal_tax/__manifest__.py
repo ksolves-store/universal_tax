@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v13.0
+        Universal Tax v14.0
         """,
 
     'description': """
@@ -22,12 +22,15 @@
     """,
 
     'author': "Ksolves India Pvt. Ltd.",
-    'website': "https://www.ksolves.com/",
+    'website': "https://store.ksolves.com/",
 
 
     'category': 'Sales Management',
-    'version': '1.2.0',
+
+    'version': '14.1.0.0',
     'license': 'LGPL-3',
+    'currency': 'EUR',
+    'price': '0.0',
     'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
 
     'data': [
@@ -41,6 +44,6 @@
 
     ],
 
-    'images': ['static/description/Universal-Tax-V13.jpg'],
+    'images': ['static/description/Universal_Tax_V14.jpg'],
 
 }

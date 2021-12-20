@@ -19,7 +19,9 @@
 <!--                <xpath expr="//field[@name='tax_line_ids']" position="attributes">-->
 <!--                    <attribute name="class">ks_margin</attribute>-->
 <!--                </xpath>-->
-                <xpath expr="//group[@class='oe_subtotal_footer']/field[@name='amount_by_group']" position="after">
+
+                <xpath expr="//field[@name='amount_total']" position="before">
+
                     <field name="ks_amount_global_tax" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
                 </xpath>
             </field>
