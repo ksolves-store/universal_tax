@@ -3,7 +3,7 @@
     'name': "Universal Tax",
 
     'summary': """
-        Universal Tax v14.0
+        Universal Tax v15.0
         """,
 
     'description': """
@@ -26,8 +26,7 @@
 
 
     'category': 'Sales Management',
-
-    'version': '14.1.0.0',
+    'version': '15.1.0.0',
     'license': 'LGPL-3',
     'currency': 'EUR',
     'price': '0.0',
@@ -40,10 +39,15 @@
         'views/ks_purchase_order.xml',
         'views/ks_account_invoice_supplier_form.xml',
         'views/ks_report.xml',
-        'views/assets.xml',
+        # 'views/assets.xml',
 
     ],
 
-    'images': ['static/description/Universal_Tax_V14.jpg'],
+    'images': ['static/description/Universal_Tax_V15.jpg'],
+    'assets': {
+            'web.assets_backend': [
+                '/universal_tax/static/css/ks_stylesheet.css',
+            ],
+        },
 
 }
