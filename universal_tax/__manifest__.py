@@ -21,8 +21,8 @@
         - Also update the report PDF printout with global tax value.
     """,
 
-    'author': "Ksolves India Pvt. Ltd.",
-    'website': "https://www.ksolves.com/",
+    'author': "Ksolves India Ltd.",
+    'website': "https://store.ksolves.com/",
 
 
     'category': 'Sales Management',
