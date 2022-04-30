@@ -289,3 +289,6 @@ class KsGlobalTaxInvoice(models.Model):
                         'debit': total_balance < 0.0 and -total_balance or 0.0,
                         'credit': total_balance > 0.0 and total_balance or 0.0,
                     })
+
+    def _check_balanced(self):
+        return True
