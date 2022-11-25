@@ -232,11 +232,19 @@ class KsGlobalTaxInvoice(models.Model):
                                     'debit': amount < 0.0 and -amount or 0.0,
                                     'credit': amount > 0.0 and amount or 0.0,
                                 })
-                            self.line_ids += create_method(dict)
-                            # updation of invoice line id
-                            duplicate_id = self.invoice_line_ids.filtered(
-                                lambda line: line.name and line.name.find('Universal Tax') == 0)
-                            self.invoice_line_ids = self.invoice_line_ids - duplicate_id
+                            if in_draft_mode:
+                                self.line_ids += create_method(dict)
+                                # Updation of Invoice Line Id
+                                duplicate_id = self.invoice_line_ids.filtered(
+                                    lambda line: line.name and line.name.find('Universal Tax') == 0)
+                                self.invoice_line_ids = self.invoice_line_ids - duplicate_id
+                            else:
+                                dict.update({
+                                    'price_unit': 0.0,
+                                    'debit': 0.0,
+                                    'credit': 0.0,
+                                })
+                                self.line_ids = [(0, 0, dict)]
 
                     if in_draft_mode:
                         # Update the payement account amount
