@@ -26,7 +26,7 @@
 
 
     'category': 'Sales Management',
-    'version': '15.1.0.1',
+    'version': '15.1.0.2',
     'license': 'LGPL-3',
     'currency': 'EUR',
     'price': '0.0',
