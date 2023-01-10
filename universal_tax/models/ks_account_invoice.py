@@ -98,10 +98,10 @@ class KsGlobalTaxInvoice(models.Model):
                     'debit': total_balance < 0.0 and -total_balance or 0.0,
                     'credit': total_balance > 0.0 and total_balance or 0.0,
                 })
-            if not already_exists and rec.ks_global_tax_rate > 0:
-                in_draft_mode = self != self._origin
-                if not in_draft_mode:
-                    rec._recompute_universal_tax_lines()
+            # if not already_exists and rec.ks_global_tax_rate > 0:
+            #     in_draft_mode = self != self._origin
+            #     if not in_draft_mode:
+            #         rec._recompute_universal_tax_lines()
 
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
