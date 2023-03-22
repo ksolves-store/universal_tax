@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api,_
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -21,12 +21,13 @@ class KsGlobalTaxSales(models.Model):
     @api.depends('order_line.price_total', 'ks_global_tax_rate')
     def _amount_all(self):
         for rec in self:
-            ks_res = super(KsGlobalTaxSales, rec)._amount_all()
+            ks_res = super(KsGlobalTaxSales, rec)
             if 'ks_amount_discount' in rec:
                 rec.ks_calculate_discount()
-
             rec.ks_calculate_tax()
         return ks_res
+
+
 
     def _prepare_invoice(self):
         for rec in self:
@@ -44,6 +45,11 @@ class KsGlobalTaxSales(models.Model):
 
             rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
 
+
+
+
+
+
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
@@ -59,3 +65,6 @@ class KsSaleAdvancePaymentInv(models.TransientModel):
             invoice['ks_global_tax_rate'] = order.ks_global_tax_rate
             invoice['ks_amount_global_tax'] = order.ks_amount_global_tax
         return invoice
+
+
+

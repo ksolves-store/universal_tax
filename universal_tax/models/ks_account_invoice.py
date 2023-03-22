@@ -13,6 +13,13 @@ class KsGlobalTaxInvoice(models.Model):
     ks_sales_tax_account_id = fields.Integer(compute='ks_verify_tax')
     ks_purchase_tax_account_id = fields.Integer(compute='ks_verify_tax')
 
+
+
+
+
+
+
+
     @api.depends('company_id.ks_enable_tax')
     def ks_verify_tax(self):
         for rec in self:
@@ -52,15 +59,16 @@ class KsGlobalTaxInvoice(models.Model):
                 rec.ks_amount_global_tax = 0.0
 
             rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
+            rec.amount_residual=rec.ks_amount_global_tax+rec.amount_residual
 
     def ks_update_universal_tax(self):
         for rec in self:
             already_exists = self.line_ids.filtered(
                 lambda line: line.name and line.name.find('Universal Tax') == 0)
             terms_lines = self.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                lambda line: line.account_id.account_type in ('receivable', 'payable'))
             other_lines = self.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                lambda line: line.account_id.account_type not in ('receivable', 'payable'))
             if already_exists:
                 amount = rec.ks_amount_global_tax
                 if rec.ks_sales_tax_account_id \
@@ -132,7 +140,7 @@ class KsGlobalTaxInvoice(models.Model):
                     #            if self._origin.id
                     #            else (self.display_name))
                     terms_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type in ('receivable', 'payable'))
                     already_exists = self.line_ids.filtered(
                                     lambda line: line.name and line.name.find('Universal Tax') == 0)
                     if already_exists:
@@ -173,7 +181,7 @@ class KsGlobalTaxInvoice(models.Model):
                                     'account_id': self.ks_purchase_tax_account_id,
                                     'move_id': self._origin,
                                     'date': self.date,
-                                    'exclude_from_invoice_tab': True,
+                                    # 'exclude_from_invoice_tab': True,
                                     'partner_id': terms_lines.partner_id.id,
                                     'company_id': terms_lines.company_id.id,
                                     'company_currency_id': terms_lines.company_currency_id.id,
@@ -216,7 +224,7 @@ class KsGlobalTaxInvoice(models.Model):
                                     'account_id': self.ks_sales_tax_account_id,
                                     'move_id': self.id,
                                     'date': self.date,
-                                    'exclude_from_invoice_tab': True,
+                                    # 'exclude_from_invoice_tab': True,
                                     'partner_id': terms_lines.partner_id.id,
                                     'company_id': terms_lines.company_id.id,
                                     'company_currency_id': terms_lines.company_currency_id.id,
@@ -249,9 +257,9 @@ class KsGlobalTaxInvoice(models.Model):
                     if in_draft_mode:
                         # Update the payement account amount
                         terms_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type in ('receivable', 'payable'))
                         other_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type not in ('receivable', 'payable'))
                         total_balance = sum(other_lines.mapped('balance'))
                         total_amount_currency = sum(other_lines.mapped('amount_currency'))
                         terms_lines.update({
@@ -261,9 +269,9 @@ class KsGlobalTaxInvoice(models.Model):
                                 })
                     else:
                         terms_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type in ('receivable', 'payable'))
                         other_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type not in ('receivable', 'payable'))
                         already_exists = self.line_ids.filtered(
                             lambda line: line.name and line.name.find('Universal Tax') == 0)
                         total_balance = sum(other_lines.mapped('balance')) - amount
@@ -286,9 +294,9 @@ class KsGlobalTaxInvoice(models.Model):
                 if already_exists:
                     self.line_ids -= already_exists
                     terms_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type in ('receivable', 'payable'))
                     other_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type not in ('receivable', 'payable'))
                     total_balance = sum(other_lines.mapped('balance'))
                     total_amount_currency = sum(other_lines.mapped('amount_currency'))
                     terms_lines.update({

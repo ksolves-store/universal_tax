@@ -11,17 +11,21 @@
                      <field name="ks_enable_tax" invisible="1"/>
                         <label for="ks_global_tax_rate" string="Universal Tax (%):"
                                attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+
                         <field name="ks_global_tax_rate" class="oe_inline" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)],
                                                                                          'readonly':[('ks_enable_tax','!=',True),('ks_amount_global_tax','!=',0)]}"/>
+
 
                     </div>
                     <br></br>
 
                 </xpath>
+
 <!--                <xpath expr="//group[@class='oe_subtotal_footer oe_right']/div" position="before">-->
-                <xpath expr="//field[@name='tax_totals_json']" position="before">
+                <xpath expr="//field[@name='tax_totals']" position="before">
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="ks_purchase_universal_tax">
                         <field name="ks_amount_global_tax" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+<!--                        <field name="Total" string='Total Amount' widget="monetary" optional="show" decoration-bf="1" style="font-size:17pt;"/>-->
                     </group>
                 </xpath>
             </field>
