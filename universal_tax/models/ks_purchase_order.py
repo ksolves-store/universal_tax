@@ -71,8 +71,7 @@ class GlobalTaxPurchases(models.Model):
 
     def _compute_tax_totals(self):
         res = super(GlobalTaxPurchases, self)._compute_tax_totals()
-        # if self.tax_totals['amount_total'] != self.amount_total:
-        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,self.currency_id,currency_obj=self.currency_id)
+        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,currency_obj=self.currency_id)
         self.tax_totals['amount_total'] = self.amount_total
 
 
