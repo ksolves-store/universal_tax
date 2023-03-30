@@ -1,6 +1,7 @@
-
+import json
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import format_date, formatLang
 
 
 
@@ -68,12 +69,11 @@ class GlobalTaxPurchases(models.Model):
 
             rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
 
-    # def _compute_tax_totals(self):
-    #     res = super(GlobalTaxPurchases, self)._compute_tax_totals()
-    #     # if self.tax_totals['amount_total'] != self.amount_total:
-    #     self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,
-    #                                                                )
-    #     self.tax_totals['amount_total'] = self.amount_total
+    def _compute_tax_totals(self):
+        res = super(GlobalTaxPurchases, self)._compute_tax_totals()
+        # if self.tax_totals['amount_total'] != self.amount_total:
+        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,self.currency_id,currency_obj=self.currency_id)
+        self.tax_totals['amount_total'] = self.amount_total
 
 
     @api.constrains('ks_global_tax_rate')
