@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import format_date, formatLang
 
 
 class KsGlobalTaxInvoice(models.Model):
@@ -124,6 +125,14 @@ class KsGlobalTaxInvoice(models.Model):
         ks_res['ks_global_tax_rate'] = self.ks_global_tax_rate
         ks_res['ks_amount_global_tax'] = self.ks_amount_global_tax
         return ks_res
+
+
+    def _compute_tax_totals(self):
+        res = super(KsGlobalTaxInvoice, self)._compute_tax_totals()
+        # if self.tax_totals['amount_total'] != self.amount_total:
+        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,currency_obj=self.currency_id)
+
+        self.tax_totals['amount_total'] = self.amount_total
 
     @api.onchange('ks_global_tax_rate', 'line_ids')
     def _recompute_universal_tax_lines(self):
