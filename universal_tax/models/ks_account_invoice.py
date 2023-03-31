@@ -134,6 +134,9 @@ class KsGlobalTaxInvoice(models.Model):
 
         self.tax_totals['amount_total'] = self.amount_total
 
+        self.tax_totals['ks_tax_amount'] = formatLang(self.env, self.ks_amount_global_tax,
+                                                      currency_obj=self.currency_id)
+
     @api.onchange('ks_global_tax_rate', 'line_ids')
     def _recompute_universal_tax_lines(self):
         for rec in self:

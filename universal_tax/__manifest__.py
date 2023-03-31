@@ -47,6 +47,7 @@
         'web.assets_backend': [
             '/universal_tax/static/css/ks_stylesheet.css',
             '/universal_tax/static/src/js/amount_addition.js',
+            '/universal_tax/static/src/xml/tax_views.xml',
         ],
     },
 

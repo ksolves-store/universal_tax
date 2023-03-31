@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api,_
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.misc import format_date, formatLang
 
 
 class KsGlobalTaxSales(models.Model):
@@ -9,7 +10,7 @@ class KsGlobalTaxSales(models.Model):
 
     ks_global_tax_rate = fields.Float(string="Universal Tax (%):", readonly=True,
                                       states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
-    ks_amount_global_tax = fields.Monetary(string='Universal Tax', readonly=True, compute='_amount_all',
+    ks_amount_global_tax = fields.Monetary(string='Universal Tax', readonly=True,compute='_amount_all',
                                            track_visibility='always', store=True)
     ks_enable_tax = fields.Boolean(compute='ks_verify_tax')
 
@@ -45,15 +46,19 @@ class KsGlobalTaxSales(models.Model):
 
             rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
 
-
-
-
-
-
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
         if self.ks_global_tax_rate > 100 or self.ks_global_tax_rate < 0:
             raise ValidationError('You cannot enter percentage value greater than 100 or less than 0.')
+
+    def _compute_tax_totals(self):
+        res = super(KsGlobalTaxSales, self)._compute_tax_totals()
+        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,currency_obj=self.currency_id)
+        self.tax_totals['amount_total'] = self.amount_total
+
+
+
+        self.tax_totals['ks_tax_amount']=formatLang(self.env, self.ks_amount_global_tax,currency_obj=self.currency_id)
 
 
 class KsSaleAdvancePaymentInv(models.TransientModel):

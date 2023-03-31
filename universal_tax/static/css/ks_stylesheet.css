@@ -1,7 +1,11 @@
 .ks_container .o_form_label{
-    width:200px;
+    width:160px;
     font-weight: bold !important
 }
 .ks_margin {
-    margin-top: 5%;
+    margin-top: 10%;
+}
+.ks_shift{
+margin-left:30%;
+right: 400px;
 }
