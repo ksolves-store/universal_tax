@@ -32,16 +32,21 @@ patch(TaxTotalsComponent.prototype, "amount_addition", {
             }
         }
         this.totals.subtotals = subtotals;
-        let amount_total = amount_untaxed + amount_tax +this.props.record.data.ks_amount_global_tax;
+        if (this.props.record.data.state =="draft")
+        {
+        let amount_total = amount_untaxed + amount_tax + this.props.record.data.ks_amount_global_tax;
         this.totals.ks_tax_amount = this._format(this.props.record.data.ks_amount_global_tax)
         this.totals.amount_total = amount_total;
         this.totals.formatted_amount_total = this._format(amount_total);
-        for (let group_name of Object.keys(this.totals.groups_by_subtotal)) {
-            let group = this.totals.groups_by_subtotal[group_name];
-            for (let i in group) {
-                group[i].formatted_tax_group_amount = this._format(group[i].tax_group_amount);
-                group[i].formatted_tax_group_base_amount = this._format(group[i].tax_group_base_amount);
-            }
         }
+
+
+//        for (let group_name of Object.keys(this.totals.groups_by_subtotal)) {
+//            let group = this.totals.groups_by_subtotal[group_name];
+//            for (let i in group) {
+//                group[i].formatted_tax_group_amount = this._format(group[i].tax_group_amount);
+//                group[i].formatted_tax_group_base_amount = this._format(group[i].tax_group_base_amount);
+//            }
+//        }
     }
 })

@@ -19,8 +19,7 @@
                     <br></br>
                 </xpath>
                 <xpath expr="//field[@name='tax_totals']" position="before">
-                        <field name="ks_amount_global_tax" invisible="1"
-                           />
+                        <field name="ks_amount_global_tax" invisible="1"/>
                </xpath>
             </field>
         </record>
