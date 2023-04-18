@@ -14,9 +14,12 @@ patch(TaxTotalsComponent.prototype, "amount_addition", {
         if (!this.totals) {
             return;
         }
+
+        {
 //        this.totals = nextProps.value;
 //        this.readonly = nextProps.readonly;
         let amount_untaxed = this.totals.amount_untaxed;
+
         let amount_tax = 0;
         let subtotals = [];
         for (let subtotal_title of this.totals.subtotals_order) {
@@ -32,13 +35,11 @@ patch(TaxTotalsComponent.prototype, "amount_addition", {
             }
         }
         this.totals.subtotals = subtotals;
-        if (this.props.record.data.state =="draft")
-        {
-        let amount_total = amount_untaxed + amount_tax + this.props.record.data.ks_amount_global_tax;
-        this.totals.ks_tax_amount = this._format(this.props.record.data.ks_amount_global_tax)
-        this.totals.amount_total = amount_total;
-        this.totals.formatted_amount_total = this._format(amount_total);
-        }
+            let amount_total = amount_untaxed + amount_tax + this.props.record.data.ks_amount_global_tax;
+            this.totals.ks_tax_amount = this._format(this.props.record.data.ks_amount_global_tax)
+            this.totals.amount_total = amount_total;
+            this.totals.formatted_amount_total = this._format(amount_total);
+            }
 
 
 //        for (let group_name of Object.keys(this.totals.groups_by_subtotal)) {

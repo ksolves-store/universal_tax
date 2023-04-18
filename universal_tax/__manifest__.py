@@ -29,7 +29,7 @@
     'license': 'LGPL-3',
     'currency': 'EUR',
     'price': '0.0',
-    'depends': ['base', 'sale', 'purchase', 'account', 'sale_management'],
+    'depends': ['base', 'sale', 'purchase', 'account', 'sale_management','stock'],
 
     'data': [
         'views/ks_account_account.xml',

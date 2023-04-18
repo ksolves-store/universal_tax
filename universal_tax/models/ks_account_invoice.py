@@ -83,8 +83,8 @@ class KsGlobalTaxInvoice(models.Model):
                         })
                     else:
                         already_exists.update({
-                            'debit': amount > 0.0 and amount or 0.0,
-                            'credit': amount < 0.0 and -amount or 0.0,
+                            # 'debit': amount > 0.0 and amount or 0.0,
+                            # 'credit': amount < 0.0 and -amount or 0.0,
                         })
                 amount = rec.ks_amount_global_tax
                 if rec.ks_purchase_tax_account_id \
@@ -188,6 +188,16 @@ class KsGlobalTaxInvoice(models.Model):
                                     'account_id': self.ks_purchase_tax_account_id,
                                     'move_id': self._origin,
                                     'date': self.date,
+                                    'display_type':('tax'),
+                            #
+                            #         ('product', 'Product'),
+                            #     ('cogs', 'Cost of Goods Sold'),
+                            # ('tax', 'Tax'),
+                            # ('rounding', "Rounding"),
+                            # ('payment_term', 'Payment Term'),
+                            # ('line_section', 'Section'),
+                            # ('line_note', 'Note'),
+                            # ('epd', 'Early Payment Discount')
                                     # 'exclude_from_invoice_tab': True,
                                     'partner_id': terms_lines.partner_id.id,
                                     'company_id': terms_lines.company_id.id,
@@ -212,8 +222,8 @@ class KsGlobalTaxInvoice(models.Model):
                             else:
                                 dict.update({
                                     # 'price_unit': 0.0,
-                                    'debit': 0.0,
-                                    'credit': 0.0,
+                                    # 'debit': 0.0,
+                                    # 'credit': 0.0,
                                 })
                                 self.line_ids = [(0, 0, dict)]
                                 if self.line_ids[0].tax_ids.amount !=False:
@@ -246,6 +256,7 @@ class KsGlobalTaxInvoice(models.Model):
                                     'move_id': self.id,
                                     'date': self.date,
                                     'sequence': True,
+                                    'display_type': ('tax'),
                                     # 'exclude_from_invoice_tab': True,
                                     'partner_id': terms_lines.partner_id.id,
                                     'company_id': terms_lines.company_id.id,
@@ -271,8 +282,8 @@ class KsGlobalTaxInvoice(models.Model):
                             else:
                                 dict.update({
                                     # 'price_unit': 0.0,
-                                    'debit': 0.0,
-                                    'credit': 0.0,
+                                    # 'debit': 0.0,
+                                    # 'credit': 0.0,
                                 })
                                 self.line_ids = [(0, 0, dict)]
                                 # self.line_ids = [(0, 0, dict)]
