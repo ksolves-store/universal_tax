@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+    <t t-inherit="account.TaxTotalsField" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//table/tbody/t" position="after">
+
+
+                <tr>
+                    <td class="o_form_label o_tax_total_label">
+                        <span>Universal Tax</span>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="this.totals.ks_tax_amount"/>
+                    </td>
+                </tr>
+
+
+        </xpath>
+        </t>
+<!--    </t>-->
+    </template>

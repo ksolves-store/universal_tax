@@ -17,8 +17,8 @@
                     </div>
                 </xpath>
 
-                <xpath expr="//field[@name='tax_totals_json']" position="after">
-                    <field name="ks_amount_global_tax" attrs="{'invisible':[('ks_enable_tax','!=',True),('ks_amount_global_tax','=',0)]}"/>
+                <xpath expr="//field[@name='tax_totals']" position="before">
+                    <field name="ks_amount_global_tax" invisible="1"/>
                 </xpath>
             </field>
         </record>
