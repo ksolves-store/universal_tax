@@ -40,11 +40,11 @@ class KsGlobalTaxSales(models.Model):
     def ks_calculate_tax(self):
         for rec in self:
             if rec.ks_global_tax_rate != 0.0:
-                rec.ks_amount_global_tax = (rec.amount_total * rec.ks_global_tax_rate) / 100
+                rec.ks_amount_global_tax = ((rec.amount_untaxed + rec.amount_tax) * rec.ks_global_tax_rate) / 100
             else:
                 rec.ks_amount_global_tax = 0.0
 
-            rec.amount_total = rec.ks_amount_global_tax + rec.amount_total
+            rec.amount_total = rec.ks_amount_global_tax + rec.amount_untaxed + rec.amount_tax
 
     @api.constrains('ks_global_tax_rate')
     def ks_check_tax_value(self):
