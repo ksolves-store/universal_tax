@@ -25,7 +25,7 @@
     'website': "https://store.ksolves.com/",
 
     'category': 'Sales Management',
-    'version': '16.1.0.0',
+    'version': '16.1.0.1',
     'license': 'LGPL-3',
     'currency': 'EUR',
     'price': '0.0',
