@@ -360,8 +360,9 @@ class KsGlobalTaxInvoice(models.Model):
 
     def _compute_tax_totals(self):
         res = super(KsGlobalTaxInvoice, self)._compute_tax_totals()
-        self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,currency_obj=self.currency_id)
-        self.tax_totals['amount_total'] = self.amount_total
-        self.tax_totals['ks_tax_amount'] = formatLang(self.env, self.ks_amount_global_tax, currency_obj=self.currency_id)
+        if self.tax_totals:
+            self.tax_totals['formatted_amount_total'] = formatLang(self.env, self.amount_total,currency_obj=self.currency_id)
+            self.tax_totals['amount_total'] = self.amount_total
+            self.tax_totals['ks_tax_amount'] = formatLang(self.env, self.ks_amount_global_tax, currency_obj=self.currency_id)
 
 #
