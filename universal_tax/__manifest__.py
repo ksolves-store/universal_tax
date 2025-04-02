@@ -23,6 +23,7 @@
 
     'author': "Ksolves India Ltd.",
     'website': "https://store.ksolves.com/",
+    'live_test_url': 'https://ksdemo.kappso.com/',
 
 
     'category': 'Sales Management',
